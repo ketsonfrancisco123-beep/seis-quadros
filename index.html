@@ -55,6 +55,45 @@ main{padding-bottom:96px}
 #nav button span{font-size:1.3rem;line-height:1}
 #nav button[aria-current=page]{color:var(--acc)}
 #msg{position:sticky;top:0;background:var(--bg);z-index:5;margin:0;padding:4px 0}
+
+:root{--dot:#d3d8e6;--acc2:#ffd400}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dot:#232838}}
+:root[data-th="hero"]:not(.x){--acc:#e11d2e;--onacc:#fff;--acc2:#ffd400}
+:root[data-th="anime"]:not(.x){--acc:#ff3d9a;--onacc:#fff;--acc2:#8f6bff}
+:root[data-th="manga"]:not(.x){--acc:#111;--onacc:#fff;--acc2:#e4e4e4}
+@media (prefers-color-scheme:dark){:root[data-th="manga"]:not(.x){--acc:#f2f2f2;--onacc:#111;--acc2:#555}}
+body{background:radial-gradient(var(--dot) 1.3px,transparent 1.5px) 0 0/16px 16px,var(--bg)}
+h1{font-size:3.2rem;color:var(--acc);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);display:inline-block;margin:6px 0 10px}
+h2{font-family:Bangers,Impact,sans-serif;font-weight:400;font-size:1.55rem;letter-spacing:.04em}
+section{border:3px solid var(--ink);border-radius:6px;box-shadow:5px 5px 0 var(--ink)}
+button{font-family:Bangers,Impact,sans-serif;font-size:1.15rem;letter-spacing:.05em;text-transform:uppercase;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transition:transform .08s}
+button:active{transform:translate(3px,3px);box-shadow:none}
+button.alt{background:var(--surf);color:var(--ink)}
+#nav{border-top:3px solid var(--ink)}
+#nav button{border:0;box-shadow:none;font-family:Barlow,system-ui,sans-serif;text-transform:none;font-size:.72rem;letter-spacing:0}
+#nav button[aria-current=page]{background:var(--acc2);color:#14161c}
+.wk{border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transform:rotate(-.4deg)}
+.wk:nth-child(even){transform:rotate(.4deg)}
+.hero{background:var(--acc2);color:#14161c;position:relative;overflow:hidden;padding-right:96px}
+.hero .note,.hero small{color:#14161c}
+.burst{position:absolute;right:-8px;top:-10px;width:104px;height:104px;background:var(--acc);clip-path:polygon(50% 0,61% 20%,82% 10%,80% 33%,100% 40%,84% 56%,96% 78%,72% 76%,66% 100%,50% 84%,34% 100%,28% 76%,4% 78%,16% 56%,0 40%,20% 33%,18% 10%,39% 20%);display:grid;place-items:center;font:400 1.25rem Bangers,Impact,sans-serif;color:var(--onacc);transform:rotate(12deg);animation:bb 2.4s ease-in-out infinite}
+@keyframes bb{50%{transform:rotate(6deg) scale(1.08)}}
+.bar{height:18px;border:3px solid #14161c;background:#fff;border-radius:10px;overflow:hidden;margin:4px 0}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .6s}
+.bdg{display:flex;flex-wrap:wrap;gap:8px}
+.bd{width:76px;text-align:center;font-size:.7rem;line-height:1.1}
+.bd b{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 2px;border:3px solid var(--ink);border-radius:50%;background:var(--acc2);font-size:1.5rem;color:#14161c}
+.bd.off b{filter:grayscale(1);opacity:.35}
+.ms{padding:4px 0}
+#pops{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;z-index:50}
+.pop{font:400 1.6rem Bangers,Impact,sans-serif;background:#ffd400;color:#14161c;border:3px solid #14161c;border-radius:10px;padding:2px 14px;box-shadow:4px 4px 0 #14161c;animation:pp 1.9s ease forwards}
+@keyframes pp{0%{transform:scale(.3) rotate(-8deg);opacity:0}12%{transform:scale(1.15) rotate(3deg);opacity:1}25%{transform:scale(1) rotate(-1deg)}85%{opacity:1}100%{transform:translateY(-14px) scale(.96);opacity:0}}
+#app>div:not([hidden]){animation:pg .25s ease}
+@keyframes pg{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.emo{position:absolute;line-height:1;transform-origin:0 0;white-space:nowrap}
+#big .xs{outline:3px solid var(--acc2);outline-offset:3px}
+.pal{display:flex;flex-wrap:wrap;gap:6px}
+.pal button{padding:6px 10px;font-size:1.1rem}
 </style>
 </head>
 <body>
@@ -72,9 +111,15 @@ main{padding-bottom:96px}
 <div id="app" hidden>
 
 <div id="v-home" hidden>
-<section><h2 id="hello">Olá!</h2><p class="note" id="hcount"></p>
+<section class="hero"><div class="burst">HERÓI!</div>
+<h2 id="hello">Olá!</h2><p class="note" id="tip"></p>
+<b id="lvn"></b> <span id="ltitle"></span>
+<div class="bar"><i id="xpb"></i></div><small id="xpt"></small>
+<p class="note" id="hcount"></p>
 <div class="row"><button id="hnew">Nova obra</button><button class="alt" id="hall">Ver a oficina</button></div></section>
+<section><h2>Missões do dia</h2><div id="miss"></div></section>
 <section><h2>Continuar a trabalhar</h2><div id="hcur"></div></section>
+<section><h2>Conquistas</h2><div class="bdg" id="badges"></div></section>
 </div>
 
 <div id="v-oficina" hidden>
@@ -116,6 +161,12 @@ main{padding-bottom:96px}
 <label for="iss">Tamanho do efeito</label><input type="range" id="iss" min="50" max="250">
 <label for="isr">Inclinação do efeito</label><input type="range" id="isr" min="-45" max="45">
 <label for="iz">Zoom da imagem</label><input type="range" id="iz" min="100" max="400">
+<h2 style="margin-top:14px">Efeitos e adesivos</h2>
+<p class="note">Toca para pôr no quadro. Depois arrasta-o com o dedo.</p>
+<div class="pal" id="pal"></div>
+<label for="ixs">Tamanho do elemento escolhido</label><input type="range" id="ixs" min="50" max="300" value="100">
+<label for="ixr">Rodar elemento escolhido</label><input type="range" id="ixr" min="-180" max="180" value="0">
+<div class="row"><button class="alt" id="delx">Apagar elemento escolhido</button></div>
 <div class="row">
 <button id="pick">Enviar a minha arte</button>
 <input type="file" id="iimg" accept="image/*" style="display:none">
@@ -154,6 +205,8 @@ main{padding-bottom:96px}
 <p>Email: <b id="who"></b></p>
 <label for="dn">Nome na app</label><input type="text" id="dn" maxlength="40">
 <div class="row"><button id="sname">Guardar nome</button></div>
+<label for="ith">Estilo da app</label>
+<select id="ith"><option value="hero">Super-herói</option><option value="anime">Anime</option><option value="manga">Mangá (preto e branco)</option></select>
 <p>Plano: <b id="plan"></b></p>
 <label class="chk"><input type="checkbox" id="sim"> Beta: simular premium (só neste telemóvel)</label>
 <div class="row"><button class="alt" id="logout">Sair</button></div>
@@ -174,9 +227,9 @@ main{padding-bottom:96px}
 var SB_URL="https://zxjafqtowfiqywclxube.supabase.co", SB_KEY="sb_publishable_N-bnBHHt_HtmS5gcjL0sZQ_5ZqlOlUz";
 var sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null, user = null, workId = null;
 var SAMPLE = "Cenário: uma cidade destruída, à meia-noite.\nGOJO: — Oitenta anos, hein? Espero que tenhas aprendido alguma coisa.\nITADORI: — Que falar antes de uma luta é desperdício de energia.\nBOOM! Itadori desaparece do campo de visão.\nGojo ativa o Ilimitado. O primeiro murro pára a centímetros do rosto.\nBLACK FLASH! A energia explode contra o espaço entre os dois.\nGOJO: — Expansão de Domínio: Vazio Infinito.\nITADORI: — Vim acabar a luta.\nO corte atravessa o espaço onde Gojo se encontra.\nGojo cai de joelhos. A luta terminou.";
-var S = [], sel = 0, $ = function(i){return document.getElementById(i)};
+var S = [], sel = 0, selX = -1, $ = function(i){return document.getElementById(i)};
 var K = ["ix","iy","z","cx","cy","bx","by","bw","bs","sx","sy","sr","ss"];
-function blank(){return {cap:"",bal:"",sfx:"",img:null,path:null,h:null,ix:0,iy:0,z:1,cx:0,cy:0,bx:8,by:36,bw:78,bs:1,sx:62,sy:6,sr:-8,ss:1}}
+function blank(){return {cap:"",bal:"",sfx:"",img:null,path:null,h:null,ix:0,iy:0,z:1,cx:0,cy:0,bx:8,by:36,bw:78,bs:1,sx:62,sy:6,sr:-8,ss:1,ex:[]}}
 function init(){S=[];for(var i=0;i<6;i++)S.push(blank())}
 function cl(v,a,b){return Math.max(a,Math.min(b,v))}
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
@@ -188,6 +241,7 @@ function paint(box,p,live){
   if(p.cap){var c=el("div","cap",p.cap);c.style.left=p.cx+"%";c.style.top=p.cy+"%";c.style.maxWidth=Math.min(70,100-p.cx-1)+"%";if(live)c.dataset.k="cap";box.appendChild(c)}
   if(p.bal){var b=el("div","bal",p.bal);b.style.left=p.bx+"%";b.style.top=p.by+"%";b.style.maxWidth=Math.min(p.bw,100-p.bx-1)+"%";b.style.fontSize=(3.9*p.bs)+"cqw";if(live)b.dataset.k="bal";box.appendChild(b)}
   if(p.sfx){var s=el("div","sfx",p.sfx);s.style.left=p.sx+"%";s.style.top=p.sy+"%";s.style.fontSize=(9.5*p.ss)+"cqw";s.style.transform="rotate("+p.sr+"deg)";if(live)s.dataset.k="sfx";box.appendChild(s)}
+  (p.ex||[]).forEach(function(q,i){var w=/[A-Za-z]/.test(q.t),d=el("div",w?"sfx":"emo",q.t);d.style.left=q.x+"%";d.style.top=q.y+"%";d.style.fontSize=((w?9.5:11)*q.s)+"cqw";d.style.transform="rotate("+q.r+"deg)";if(live){d.dataset.k="x"+i;if(i===selX)d.classList.add("xs")}box.appendChild(d)});
 }
 function footer(){
   var t = $("lic").value;
@@ -215,7 +269,7 @@ function fill(){
   $("icap").value = p.cap; $("ibal").value = p.bal; $("isfx").value = p.sfx;
   for(var id in SL) $(id).value = Math.round(p[SL[id][0]] * SL[id][1]);
 }
-function choose(i,scroll){sel = i; render(); fill(); $("imsg").textContent = ""; if(scroll) $("ed").scrollIntoView({behavior:"smooth"})}
+function choose(i,scroll){sel = i; selX = -1; render(); fill(); $("imsg").textContent = ""; if(scroll) $("ed").scrollIntoView({behavior:"smooth"})}
 [["icap","cap"],["ibal","bal"],["isfx","sfx"]].forEach(function(m){
   $(m[0]).oninput = function(){S[sel][m[1]] = this.value; render()};
 });
@@ -239,8 +293,9 @@ bg.addEventListener("pointerdown", function(e){
   if(ids.length === 2){var a=ptrs[ids[0]], b=ptrs[ids[1]]; pinch = {d:Math.hypot(a.x-b.x,a.y-b.y)||1, z:p.z}; drag = null; return}
   if(ids.length > 2) return;
   var t = e.target.closest ? e.target.closest("[data-k]") : null, k = t ? t.dataset.k : "img";
-  var f = {img:["ix","iy"],cap:["cx","cy"],bal:["bx","by"],sfx:["sx","sy"]}[k], r = bg.getBoundingClientRect();
-  drag = {k:k, f:f, x:e.clientX, y:e.clientY, w:r.width, h:r.height, a:p[f[0]], b:p[f[1]]};
+  var f = {img:["ix","iy"],cap:["cx","cy"],bal:["bx","by"],sfx:["sx","sy"]}[k], o = p, r = bg.getBoundingClientRect();
+  if(k.charAt(0) === "x"){selX = +k.slice(1); o = p.ex[selX]; f = ["x","y"]; $("ixs").value = Math.round(o.s*100); $("ixr").value = o.r}
+  drag = {k:k, o:o, f:f, x:e.clientX, y:e.clientY, w:r.width, h:r.height, a:o[f[0]], b:o[f[1]]};
 });
 bg.addEventListener("pointermove", function(e){
   if(!ptrs[e.pointerId]) return;
@@ -253,8 +308,8 @@ bg.addEventListener("pointermove", function(e){
   }
   if(!drag) return;
   var dx = (e.clientX-drag.x)/drag.w*100, dy = (e.clientY-drag.y)/drag.h*100, lim = drag.k === "img" ? [-100,100] : [-5,95];
-  p[drag.f[0]] = Math.round(cl(drag.a+dx,lim[0],lim[1])*10)/10;
-  p[drag.f[1]] = Math.round(cl(drag.b+dy,lim[0],lim[1])*10)/10;
+  drag.o[drag.f[0]] = Math.round(cl(drag.a+dx,lim[0],lim[1])*10)/10;
+  drag.o[drag.f[1]] = Math.round(cl(drag.b+dy,lim[0],lim[1])*10)/10;
   paintBig();
 });
 function endp(e){
@@ -277,7 +332,7 @@ $("iimg").onchange = function(){
     c.width = Math.round(im.width*s); c.height = Math.round(im.height*s);
     c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
     var p = S[sel]; p.img = c.toDataURL("image/jpeg", 0.85); p.path = null; p.h = null; p.ix = 0; p.iy = 0; p.z = 1;
-    URL.revokeObjectURL(url); inp.value = ""; render(); fill();
+    URL.revokeObjectURL(url); inp.value = ""; render(); fill(); hook("img");
     $("imsg").textContent = "Imagem colocada no quadro " + (sel+1) + ". Arrasta-a para a mover. Toca em Guardar obra para a guardar.";
   };
   im.onerror = function(){$("imsg").textContent = "Não consegui abrir essa imagem. Tenta outra (JPG ou PNG)."};
@@ -341,12 +396,19 @@ function exportPng(){
         c.font = (9.5*k*p.ss) + "px Bangers,Impact,sans-serif"; c.lineJoin = "round"; c.lineWidth = 1.4*k; c.strokeStyle = "#14161c";
         c.strokeText(p.sfx,0,0); c.fillStyle = "#ffd400"; c.fillText(p.sfx,0,0); c.restore();
       }
+      (p.ex || []).forEach(function(q){
+        var w = /[A-Za-z]/.test(q.t);
+        c.save(); c.translate(x+q.x/100*pw, y+q.y/100*ph); c.rotate(q.r*Math.PI/180);
+        if(w){c.font = (9.5*k*q.s) + "px Bangers,Impact,sans-serif"; c.lineJoin = "round"; c.lineWidth = 1.4*k; c.strokeStyle = "#14161c"; c.strokeText(q.t,0,0); c.fillStyle = "#ffd400"; c.fillText(q.t,0,0)}
+        else {c.font = (11*k*q.s) + "px sans-serif"; c.fillStyle = "#14161c"; c.fillText(q.t,0,0)}
+        c.restore();
+      });
       c.restore(); c.strokeStyle = "#14161c"; c.lineWidth = 6; c.strokeRect(x,y,pw,ph);
     });
     c.fillStyle = "#14161c"; c.font = "22px Barlow,sans-serif"; c.textAlign = "center"; c.fillText(footer(), W/2, H-52);
     try{
       cv.toBlob(function(bl){
-        var a = document.createElement("a"); a.download = "quadrinhos.png"; a.href = URL.createObjectURL(bl); a.click();
+        var a = document.createElement("a"); a.download = "quadrinhos.png"; a.href = URL.createObjectURL(bl); a.click(); hook("exp"); pop("KAPOW! Página exportada!");
       }, "image/png");
     }catch(e){msg("Não foi possível exportar: " + e.message)}
   });
@@ -358,7 +420,7 @@ function msg(t){$("msg").textContent = t}
 var started = false;
 function ui(){
   $("authv").hidden = !!user; $("app").hidden = !user; $("nav").hidden = !user;
-  if(user){$("who").textContent = user.email; if(!started){started = true; go("home"); loadProfile()}}
+  if(user){$("who").textContent = user.email; if(!started){started = true; gLoad(); go("home"); loadProfile()}}
   else started = false;
 }
 function fail(e){msg("Erro: " + (e && e.message ? e.message : e)); return false}
@@ -401,12 +463,12 @@ async function save(){
       p.path = path; p.h = hex(await crypto.subtle.digest("SHA-256", await b.arrayBuffer()));
     }
     var l = {}; K.forEach(function(k){l[k] = p[k]});
-    out.push({cap:p.cap, bal:p.bal, sfx:p.sfx, path:p.path || null, h:p.h || null, l:l});
+    out.push({cap:p.cap, bal:p.bal, sfx:p.sfx, path:p.path || null, h:p.h || null, l:l, ex:p.ex || []});
   }
   row.panels = out;
   var u = await sb.from("works").update(row).eq("id", workId);
   if(u.error) return fail(u.error);
-  msg("Obra guardada."); list(); return true;
+  msg("Obra guardada."); pop("POW! Obra guardada!"); onSaved($("ist").value); list(); return true;
 }
 $("save").onclick = save;
 async function openW(id){
@@ -417,7 +479,7 @@ async function openW(id){
   init();
   for(var i = 0; i < 6 && i < w.panels.length; i++){
     var q = w.panels[i], p = S[i];
-    p.cap = q.cap; p.bal = q.bal; p.sfx = q.sfx; p.path = q.path; p.h = q.h;
+    p.cap = q.cap; p.bal = q.bal; p.sfx = q.sfx; p.path = q.path; p.h = q.h; p.ex = q.ex || [];
     if(q.l) K.forEach(function(k){if(q.l[k] != null) p[k] = q.l[k]});
     else if(q.pos === "bottom") p.by = 72;
     if(q.path){var s = await sb.storage.from("artes").createSignedUrl(q.path, 3600); if(s.data) p.img = s.data.signedUrl}
@@ -431,6 +493,7 @@ $("reg").onclick = async function(){
   var data = JSON.stringify({id:workId, title:$("ttl").value, lic:$("lic").value, p:S.map(function(p){return [p.cap,p.bal,p.sfx,p.h || null]})});
   var h = hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(data)));
   var r = await sb.from("registrations").insert({work_id:workId, sha256:h}).select("created_at").single();
+  if(!r.error){hook("reg"); pop("ZAP! Autoria registada!")}
   if(r.error){box.textContent = "Erro: " + r.error.message; return}
   box.textContent = "Autoria registada\nData do servidor: " + new Date(r.data.created_at).toLocaleString("pt-PT") + "\nSHA-256: " + h;
 };
@@ -493,7 +556,7 @@ function card(w, full){
   d.appendChild(row); return d;
 }
 function paintHome(){
-  $("hello").textContent = "Olá, " + nome() + "!";
+  $("hello").textContent = "Olá, " + nome() + "!"; $("tip").textContent = TIPS[Math.floor(Math.random()*TIPS.length)]; paintG();
   var done = WORKS.filter(function(w){return w.status === "acabada"}).length;
   $("hcount").textContent = WORKS.length + " obras · " + done + " acabadas";
   var cur = WORKS.filter(function(w){return w.status !== "acabada"}).slice(0, 3), box = $("hcur"); box.innerHTML = "";
@@ -534,6 +597,64 @@ async function delW(w){
   if(workId === w.id) workId = null;
   msg("Obra apagada."); list();
 }
+
+var G = {xp:0, b:{}, c:{}, dw:{}, d:{date:"", c:{}, ok:{}}}, selXdummy = 0;
+var LV = [["Aprendiz",0],["Herói Novato",50],["Desenhista",150],["Mestre dos Quadros",350],["Lenda",700]];
+var MS = [["sv","Guarda uma obra",20,1],["exp","Exporta uma página",15,1],["fx","Põe 2 efeitos num quadro",10,2]];
+var BD = [["b1","🌟","Primeira obra","sv",1],["b2","💪","5 obras guardadas","sv",5],["b3","🖼️","3 imagens","img",3],["b4","📤","Primeira exportação","exp",1],["b5","🛡️","Autor registado","reg",1],["b6","🏁","Obra acabada","done",1],["b7","💥","10 efeitos","fx",10]];
+var TIPS = ["Dica: arrasta o balão com o dedo para onde quiseres.","Dica: junta dois dedos para aproximar a imagem.","Dica: efeitos como POW! dão vida à ação.","Dica: marca a obra como Acabada para ganhar mais XP.","Dica: regista a autoria para provar que a obra é tua."];
+function today(){return new Date().toISOString().slice(0,10)}
+function gKey(){return "sq_g_" + (user ? user.id : "x")}
+function gLoad(){try{var s = JSON.parse(localStorage.getItem(gKey())); if(s) G = s}catch(e){} G.xp = G.xp || 0; G.b = G.b || {}; G.c = G.c || {}; G.dw = G.dw || {}; G.d = G.d || {date:"", c:{}, ok:{}}}
+function gSave(){try{localStorage.setItem(gKey(), JSON.stringify(G))}catch(e){}}
+function lvl(){var i = 0; LV.forEach(function(l,k){if(G.xp >= l[1]) i = k}); return i}
+function pop(t){
+  var c = $("pops"); if(!c){c = el("div"); c.id = "pops"; document.body.appendChild(c)}
+  var d = el("div","pop",t); c.appendChild(d);
+  try{if(navigator.vibrate) navigator.vibrate(25)}catch(e){}
+  setTimeout(function(){d.remove()}, 1950);
+}
+function xp(n){var a = lvl(); G.xp += n; pop("+" + n + " XP"); if(lvl() > a) pop("NÍVEL " + (lvl()+1) + "! " + LV[lvl()][0])}
+function hook(ev){
+  if(!user) return;
+  if(G.d.date !== today()) G.d = {date:today(), c:{}, ok:{}};
+  G.d.c[ev] = (G.d.c[ev] || 0) + 1; G.c[ev] = (G.c[ev] || 0) + 1;
+  var gain = {sv:10, exp:15, img:5, reg:20, fx:2, done:30}[ev] || 0; if(gain) xp(gain);
+  MS.forEach(function(m){if(!G.d.ok[m[0]] && (G.d.c[m[0]] || 0) >= m[3]){G.d.ok[m[0]] = 1; pop("MISSÃO CUMPRIDA!"); xp(m[2])}});
+  BD.forEach(function(b){if(!G.b[b[0]] && (G.c[b[3]] || 0) >= b[4]){G.b[b[0]] = 1; pop(b[1] + " " + b[2] + "!")}});
+  gSave(); paintG();
+}
+function onSaved(st){hook("sv"); if(st === "acabada" && workId && !G.dw[workId]){G.dw[workId] = 1; hook("done")}}
+function paintG(){
+  if(!$("lvn")) return;
+  var i = lvl(), n = LV[i+1], cur = LV[i][1];
+  $("lvn").textContent = "NÍVEL " + (i+1); $("ltitle").textContent = "— " + LV[i][0];
+  $("xpb").style.width = (n ? Math.min(100, (G.xp-cur)/(n[1]-cur)*100) : 100) + "%";
+  $("xpt").textContent = n ? G.xp + " / " + n[1] + " XP" : G.xp + " XP (nível máximo!)";
+  var m = $("miss"); m.innerHTML = "";
+  MS.forEach(function(x){var ok = G.d.date === today() && G.d.ok[x[0]]; m.appendChild(el("div","ms",(ok ? "✅ " : "⬜ ") + x[1] + " (+" + x[2] + " XP)"))});
+  var b = $("badges"); b.innerHTML = "";
+  BD.forEach(function(x){var d = el("div","bd" + (G.b[x[0]] ? "" : " off")); d.appendChild(el("b",null,x[1])); d.appendChild(el("span",null,x[2])); b.appendChild(d)});
+}
+var ST = ["POW!","BAM!","ZAP!","WHOOSH!","KABOOM!","💢","💥","✨","❗","❓","😱","💭"];
+ST.forEach(function(t){
+  var b = el("button",null,t); b.className = "alt";
+  b.onclick = function(){
+    var p = S[sel]; p.ex = p.ex || [];
+    if(p.ex.length >= 12) return msg("Máximo de 12 elementos por quadro.");
+    p.ex.push({t:t, x:Math.round(35+Math.random()*20), y:Math.round(30+Math.random()*30), s:1, r:Math.round(Math.random()*20-10)});
+    selX = p.ex.length-1; $("ixs").value = 100; $("ixr").value = p.ex[selX].r; render(); hook("fx"); pop(/[A-Za-z]/.test(t) ? t : "Boa!");
+  };
+  $("pal").appendChild(b);
+});
+$("ixs").oninput = function(){var q = S[sel].ex && S[sel].ex[selX]; if(q){q.s = this.value/100; paintBig()}};
+$("ixr").oninput = function(){var q = S[sel].ex && S[sel].ex[selX]; if(q){q.r = +this.value; paintBig()}};
+$("ixs").onchange = $("ixr").onchange = grid;
+$("delx").onclick = function(){var p = S[sel]; if(p.ex && p.ex[selX]){p.ex.splice(selX,1); selX = -1; render()} else msg("Toca primeiro num efeito do quadro.")};
+var th = "hero"; try{th = localStorage.getItem("sq_th") || "hero"}catch(e){}
+function setTh(v){document.documentElement.setAttribute("data-th", v)}
+setTh(th); $("ith").value = th;
+$("ith").onchange = function(){setTh(this.value); try{localStorage.setItem("sq_th", this.value)}catch(e){} pop("Estilo mudado!")};
 
 $("story").value = SAMPLE; init(); split(); ui();
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
