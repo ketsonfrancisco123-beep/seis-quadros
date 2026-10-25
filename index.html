@@ -143,9 +143,13 @@ main{padding-bottom:124px}
 #app>div:not([hidden])>section:nth-child(5){animation-delay:.28s}
 .wk:nth-child(2){animation-delay:.05s}.wk:nth-child(3){animation-delay:.1s}.wk:nth-child(4){animation-delay:.15s}.wk:nth-child(n+5){animation-delay:.2s}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#bgl{position:fixed;inset:0;z-index:-1;background-size:cover;background-repeat:no-repeat;background-position:center}
+.hero.hi{color:#fff;background-size:cover;background-repeat:no-repeat}
+.hero.hi h2,.hero.hi .note,.hero.hi small,.hero.hi b,.hero.hi span{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
 </style>
 </head>
 <body>
+<div id="bgl"></div>
 <main>
 <h1>Seis Quadros</h1>
 <p class="note" id="msg" role="status"></p>
@@ -262,6 +266,15 @@ main{padding-bottom:124px}
 <div class="row"><button id="sname">Guardar nome</button></div>
 <label for="ith">Estilo da app</label>
 <select id="ith"><option value="hero">Super-herói</option><option value="anime">Anime</option><option value="manga">Mangá (preto e branco)</option></select>
+<h2 style="margin-top:14px">Fundos deste estilo</h2>
+<p class="note">As imagens ficam só neste telemóvel e não são enviadas para a internet.</p>
+<label>Fundo da página (melhor com imagem em pé)</label>
+<div class="row"><button class="alt" id="pbg">Escolher imagem</button><button class="alt" id="pbgx">Remover</button></div>
+<label for="pbgy">Posição vertical do fundo</label><input type="range" id="pbgy" min="0" max="100" value="50">
+<label>Banner do início (melhor com imagem deitada)</label>
+<div class="row"><button class="alt" id="bbg">Escolher imagem</button><button class="alt" id="bbgx">Remover</button></div>
+<label for="bbgy">Posição vertical do banner</label><input type="range" id="bbgy" min="0" max="100" value="50">
+<input type="file" id="fbg" accept="image/*" style="display:none">
 <p>Plano: <b id="plan"></b></p>
 <label class="chk"><input type="checkbox" id="sim"> Beta: simular premium (só neste telemóvel)</label>
 <div class="row"><button class="alt" id="logout">Sair</button></div>
@@ -709,7 +722,7 @@ $("delx").onclick = function(){var p = S[sel]; if(p.ex && p.ex[selX]){p.ex.splic
 var th = "hero"; try{th = localStorage.getItem("sq_th") || "hero"}catch(e){}
 function setTh(v){document.documentElement.setAttribute("data-th", v)}
 setTh(th); $("ith").value = th;
-$("ith").onchange = function(){setTh(this.value); try{localStorage.setItem("sq_th", this.value)}catch(e){} pop("Estilo mudado!")};
+$("ith").onchange = function(){setTh(this.value); try{localStorage.setItem("sq_th", this.value)}catch(e){} applyBg(); pop("Estilo mudado!")};
 
 var ICO = {home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',oficina:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',plus:'<path d="M12 5v14M5 12h14"/>',share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'};
 document.querySelectorAll("[data-ico]").forEach(function(n){n.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' + ICO[n.dataset.ico] + '</svg>'});
@@ -721,6 +734,40 @@ function moveInd(){
 }
 window.addEventListener("resize", moveInd);
 document.querySelectorAll(".tile").forEach(function(b){b.onclick = function(){if(b.dataset.v === "criar") $("newW").click(); else go(b.dataset.v)}});
+var bgT = "p";
+function curTh(){return document.documentElement.getAttribute("data-th") || "hero"}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v); return true}catch(e){return false}}
+function applyBg(){
+  var t = curTh(), p = lsGet("sq_bgp_"+t), b = lsGet("sq_bgb_"+t), py = lsGet("sq_posp_"+t) || 50, by = lsGet("sq_posb_"+t) || 50, l = $("bgl");
+  l.style.backgroundImage = p ? 'linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.42)),url("' + p + '")' : "none";
+  l.style.backgroundPosition = "center " + py + "%";
+  var hh = document.querySelector(".hero");
+  if(b){hh.classList.add("hi"); hh.style.backgroundImage = 'linear-gradient(90deg,rgba(10,10,16,.8),rgba(10,10,16,.1)),url("' + b + '")'; hh.style.backgroundPosition = "center " + by + "%"}
+  else {hh.classList.remove("hi"); hh.style.backgroundImage = ""}
+  $("pbgy").value = py; $("bbgy").value = by;
+}
+$("pbg").onclick = function(){bgT = "p"; $("fbg").click()};
+$("bbg").onclick = function(){bgT = "b"; $("fbg").click()};
+$("pbgx").onclick = function(){try{localStorage.removeItem("sq_bgp_" + curTh())}catch(e){} applyBg()};
+$("bbgx").onclick = function(){try{localStorage.removeItem("sq_bgb_" + curTh())}catch(e){} applyBg()};
+$("pbgy").oninput = function(){lsSet("sq_posp_" + curTh(), this.value); applyBg()};
+$("bbgy").oninput = function(){lsSet("sq_posb_" + curTh(), this.value); applyBg()};
+$("fbg").onchange = function(){
+  var inp = this, f = inp.files && inp.files[0]; if(!f) return;
+  var url = URL.createObjectURL(f), im = new Image();
+  im.onload = function(){
+    var s = Math.min(1, 1000 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+    c.width = Math.round(im.width*s); c.height = Math.round(im.height*s);
+    c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+    var ok = lsSet("sq_bg" + bgT + "_" + curTh(), c.toDataURL("image/jpeg", 0.8));
+    URL.revokeObjectURL(url); inp.value = "";
+    if(ok){applyBg(); pop("Fundo aplicado!")} else msg("Sem espaço para guardar esta imagem. Tenta uma mais pequena.");
+  };
+  im.onerror = function(){msg("Não consegui abrir essa imagem.")};
+  im.src = url;
+};
+applyBg();
 $("story").value = SAMPLE; init(); split(); ui();
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
 </script>
